@@ -19,6 +19,46 @@
   padding: 10px;
 }
 
+.rounded-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50px;
+  border: none;
+  background-color: transparent;
+}
+
+.rounded-btn:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+.rounded-btn.mini {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 32px;
+  border: none;
+  background-color: transparent;
+  color: black;
+  font-weight: 700;
+}
+
+.rounded-btn.mini:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.06);
+}
+
+.rounded-btn.mini:disabled,
+.rounded-btn:disabled {
+  cursor: default;
+  background-color: transparent !important;
+}
+
 @media (min-width: 425px) {
   .container {
     max-width: 400px;
