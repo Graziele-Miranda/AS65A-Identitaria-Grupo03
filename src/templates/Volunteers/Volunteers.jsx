@@ -1,7 +1,10 @@
+"use client"
 import icAdd from "../../assets/add.svg";
 import TableRow from "@/components/TableRow";
 import "./Volunteers.css";
 import Image from "next/image";
+import { useEffect } from "react";
+import { GetCompanyList } from "@/services/empresas";
 
 function Volunteers() {
   const rows = [
@@ -13,20 +16,27 @@ function Volunteers() {
       createdAt: JSON.stringify(new Date()),
     },
     {
-      id: "1",
+      id: "2",
       nome: "Teste",
       email: "teste@gmail.com",
       telefone: "(43) 99999-9999",
       createdAt: JSON.stringify(new Date()),
     },
     {
-      id: "1",
+      id: "3",
       nome: "Teste",
       email: "teste@gmail.com",
       telefone: "(43) 99999-9999",
       createdAt: JSON.stringify(new Date()),
     },
   ];
+
+  useEffect(() => {
+    const fetchData = async() => {
+      const temp = await GetCompanyList(1)
+    };
+    fetchData();
+  }, [])
 
   return (
     <section id="volunteers">
