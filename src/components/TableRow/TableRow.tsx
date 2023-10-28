@@ -1,12 +1,10 @@
-"use client"
 import icEdit from "../../assets/edit.svg";
 import icDelete from "../../assets/delete.svg";
-import "./TableRowUser.css";
+import "./TableRow.css";
 import Image from "next/image";
 import formateDate from "../../utils/formateDate";
-import Link from "next/link";
 
-function TableRowUser({ id, name, email, phone, createdAt, onDelete }: any) {
+function TableRow({ id, name, email, phone, createdAt, onDelete, onEdit }: any) {
 
   return (
     <tr>
@@ -17,11 +15,11 @@ function TableRowUser({ id, name, email, phone, createdAt, onDelete }: any) {
       <td style={{ width: "200px" }}>{formateDate(new Date(createdAt))}</td>
       <td style={{ width: "112px" }}>
         <div className="actions-div">
-          <Link href={`user/${id}`}>
-            <button className="rounded-btn">
-              <Image src={icEdit} alt="" />
-            </button>
-          </Link>
+          <button className="rounded-btn" onClick={() => {
+            return onEdit();
+          }}>
+            <Image src={icEdit} alt="" />
+          </button>
           <button
             className="rounded-btn"
             onClick={() => {
@@ -36,4 +34,4 @@ function TableRowUser({ id, name, email, phone, createdAt, onDelete }: any) {
   );
 }
 
-export default TableRowUser;
+export default TableRow;

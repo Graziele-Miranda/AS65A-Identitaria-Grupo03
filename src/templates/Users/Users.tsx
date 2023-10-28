@@ -1,12 +1,14 @@
 "use client";
+import { useRouter } from "next/navigation";
 import icAdd from "../../assets/add.svg";
-import TableRow from "../../components/TableRowUser";
+import TableRow from "../../components/TableRow";
 import { DeleteUser, GetUserList } from "../../services/usuarios";
 import "./Users.css";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 
 function UsersTemplate() {
+  const navigate = useRouter();
   const [users, setUsers] = useState<any>([]);
   const [total, setTotal] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
@@ -85,6 +87,7 @@ function UsersTemplate() {
                   createdAt={row.createdAt}
                   phone={row.telefone}
                   onDelete={() => handleDelete(row.id)}
+                  onEdit={() => navigate.push(`user/${row.id}`)}
                 />
               );
             })}

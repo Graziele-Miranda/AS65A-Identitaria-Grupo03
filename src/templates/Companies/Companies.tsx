@@ -1,6 +1,6 @@
 "use client";
 import icAdd from "../../assets/add.svg";
-import TableRow from "../../components/TableRowUser";
+import TableRow from "../../components/TableRow";
 import { GetCompanyList } from "../../services/empresas";
 import "./Companies.css";
 import Image from "next/image";
