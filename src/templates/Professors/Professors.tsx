@@ -1,12 +1,12 @@
-"use client"
+"use client";
 import icAdd from "../../assets/add.svg";
 import TableRow from "@/components/TableRow";
-import "./Volunteers.css";
+import "./Professors.css";
 import Image from "next/image";
 import { useEffect } from "react";
 import { GetCompanyList } from "@/services/empresas";
 
-function Volunteers() {
+function ProfessorsTemplate() {
   const rows = [
     {
       id: "1",
@@ -32,24 +32,26 @@ function Volunteers() {
   ];
 
   useEffect(() => {
-    const fetchData = async() => {
-      const temp = await GetCompanyList(1)
+    const fetchData = async () => {
+      const temp = await GetCompanyList(1);
     };
     fetchData();
-  }, [])
+  }, []);
 
   return (
-    <section id="volunteers">
+    <section id="users">
       <div className="vl_title">
         <div>
           <h2>Voluntários</h2>
-          <p style={{opacity: 0.6}}>Listagem de voluntários</p>
+          <p style={{ opacity: 0.6 }}>Listagem de voluntários</p>
         </div>
-        <button className="rounded-btn"><Image src={icAdd} salt="" /></button>
+        <button className="rounded-btn">
+          <Image src={icAdd} alt="" />
+        </button>
       </div>
       <div className="vl_div_table">
         <table className="vl-table">
-          <tr style={{ backgroundColor: "rgb(251 200 200)" }}>
+          <thead style={{ backgroundColor: "rgb(251 200 200)" }}>
             <th style={{ borderRadius: "5px 0px 0px 0px" }}>Id</th>
             <th>Nome</th>
             <th>E-mail</th>
@@ -60,32 +62,36 @@ function Volunteers() {
             >
               Ações
             </th>
-          </tr>
-          {rows.map((row) => {
-            return (
-              <TableRow
-                key={row.id}
-                id={row.id}
-                name={row.nome}
-                email={row.email}
-                createdAt={row.createdAt}
-                phone={row.telefone}
-              />
-            );
-          })}
+          </thead>
+          <tbody>
+            {rows.map((row) => {
+              return (
+                <TableRow
+                  key={row.id}
+                  id={row.id}
+                  name={row.nome}
+                  email={row.email}
+                  createdAt={row.createdAt}
+                  phone={row.telefone}
+                />
+              );
+            })}
+          </tbody>
         </table>
         <div className="div-pagination">
-            <button className="rounded-btn mini">{"<"}</button>
-            <button className="rounded-btn mini">{1}</button>
-            <button className="rounded-btn mini">{2}</button>
-            <button className="rounded-btn mini">{3}</button>
-            <button className="rounded-btn mini" disabled>. . .</button>
-            <button className="rounded-btn mini">{10}</button>
-            <button className="rounded-btn mini">{">"}</button>
+          <button className="rounded-btn mini">{"<"}</button>
+          <button className="rounded-btn mini">{1}</button>
+          <button className="rounded-btn mini">{2}</button>
+          <button className="rounded-btn mini">{3}</button>
+          <button className="rounded-btn mini" disabled>
+            . . .
+          </button>
+          <button className="rounded-btn mini">{10}</button>
+          <button className="rounded-btn mini">{">"}</button>
         </div>
       </div>
     </section>
   );
 }
 
-export default Volunteers;
+export default ProfessorsTemplate;

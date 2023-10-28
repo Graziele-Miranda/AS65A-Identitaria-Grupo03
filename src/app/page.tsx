@@ -1,4 +1,4 @@
-import Volunteers from '@/templates/Volunteers/Volunteers';
+import UsersTemplate from '@/templates/Users/Users';
 
 function HomePage() {
   return (

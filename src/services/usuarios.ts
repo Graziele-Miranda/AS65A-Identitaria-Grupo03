@@ -18,7 +18,7 @@ export const CreateUser = async (model: UserParams) => {
 
 export const GetUserList = async (page: number) => {
     const { data } = await Api.get(`user?page=${page}`);
-    return data;
+    return data.user;
 };
 
 export const GetUser = async (id: number) => {
