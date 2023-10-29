@@ -1,8 +1,10 @@
-import UsersTemplate from '@/templates/Users/Users';
+import UsersTemplate from '../templates/Users/Users';
+import CompaniesTemplate from '../templates/Companies/Companies';
+import Login from '../templates/Login/Login';
 
 function HomePage() {
   return (
-    <>Tela de login</>
+   <Login/>
   )
 }
 

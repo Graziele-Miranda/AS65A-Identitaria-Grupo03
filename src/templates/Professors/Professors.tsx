@@ -1,10 +1,10 @@
 "use client";
 import icAdd from "../../assets/add.svg";
-import TableRow from "@/components/TableRow";
+import TableRow from "../../components/TableRow";
 import "./Professors.css";
 import Image from "next/image";
 import { useEffect } from "react";
-import { GetCompanyList } from "@/services/empresas";
+import { GetCompanyList } from "../../services/empresas";
 
 function ProfessorsTemplate() {
   const rows = [
