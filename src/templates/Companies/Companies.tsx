@@ -7,8 +7,8 @@ import { DeleteCompany, GetCompanyList } from "../../services/empresas";
 import "./Companies.css";
 import Image from "next/image";
 import { useEffect } from "react";
-import AddCompanieModal from "../../components/Modal/AddCompanieModal";
 import { getUserAuth } from "../../utils/storages";
+import AddCompanieModal from "../../components/Modal/AddCompanieModal";
 
 function CompaniesTemplate() {
   const navigate = useRouter();
@@ -16,6 +16,15 @@ function CompaniesTemplate() {
   const [total, setTotal] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<any>([1]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
 
   const handleChangePage = async (e) => {
     setPage(e);
@@ -67,7 +76,7 @@ function CompaniesTemplate() {
             <h2>Empresas</h2>
             <p style={{ opacity: 0.6 }}>Listagem de empresas</p>
           </div>
-          <button className="rounded-btn">
+          <button className="rounded-btn" onClick={openModal}>
             <Image src={icAdd} alt="" />
           </button>
         </div>
@@ -153,6 +162,7 @@ function CompaniesTemplate() {
           </div>
         </div>
       </section>
+      {isModalOpen && <AddCompanieModal closeModal={closeModal} />}
     </>
   );
 }
