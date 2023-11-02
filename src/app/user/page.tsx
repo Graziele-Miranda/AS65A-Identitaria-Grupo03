@@ -1,11 +1,15 @@
 "use client"
 
+import NavBar from "../../components/NavBar";
 import UsersTemplate from "../../templates/Users/Users";
 
-function HomePage() {
+function UsersPage() {
   return (
-    <UsersTemplate />
+    <>
+      <NavBar />
+      <UsersTemplate />
+    </>
   )
 }
 
-export default HomePage;
+export default UsersPage;

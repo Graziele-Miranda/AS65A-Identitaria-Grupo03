@@ -1,10 +1,14 @@
 "use client"
 
+import NavBar from "../../components/NavBar";
 import ProfessorsTemplate from "../../templates/Professors/Professors";
 
 function ProfessorsPage() {
   return (
-    <ProfessorsTemplate />
+    <>
+      <NavBar />
+      <ProfessorsTemplate />
+    </>
   )
 }
 

@@ -6,6 +6,7 @@ import { DeleteUser, GetUserList } from "../../services/usuarios";
 import "./Users.css";
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { getUserAuth } from "../../utils/storages";
 
 function UsersTemplate() {
   const navigate = useRouter();
@@ -27,13 +28,18 @@ function UsersTemplate() {
     setUsers(temp.data);
   };
 
-  const handleDelete = async(e) => {
+  const handleDelete = async (e) => {
     await DeleteUser(e)
     const temp = await GetUserList(1);
     setUsers(temp.data);
   }
 
   useEffect(() => {
+    if (!getUserAuth()) {
+      navigate.push('/')
+      return;
+    }
+
     const fetchData = async () => {
       const temp = await GetUserList(page);
       setUsers(temp.data);
@@ -50,98 +56,101 @@ function UsersTemplate() {
   }, []);
 
   return (
-    <section id="users">
-      <div className="vl_title">
-        <div>
-          <h2>Usuários</h2>
-          <p style={{ opacity: 0.6 }}>Listagem de usuários</p>
+    <>
+      <title>Usuários</title>
+      <section id="users">
+        <div className="vl_title">
+          <div>
+            <h2>Usuários</h2>
+            <p style={{ opacity: 0.6 }}>Listagem de usuários</p>
+          </div>
+          <button className="rounded-btn">
+            <Image src={icAdd} alt="" />
+          </button>
         </div>
-        <button className="rounded-btn">
-          <Image src={icAdd} alt="" />
-        </button>
-      </div>
-      <div className="vl_div_table">
-        <table className="vl-table">
-          <thead style={{ backgroundColor: "rgb(251 200 200)" }}>
-            <tr>
-              <th style={{ borderRadius: "5px 0px 0px 0px" }}>Id</th>
-              <th>Nome</th>
-              <th>E-mail</th>
-              <th>Telefone</th>
-              <th>Data</th>
-              <th
-                style={{ borderRadius: "0px 5px 0px 0px", textAlign: "center" }}
-              >
-                Ações
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((row: any) => {
+        <div className="vl_div_table">
+          <table className="vl-table">
+            <thead style={{ backgroundColor: "rgb(251 200 200)" }}>
+              <tr>
+                <th style={{ borderRadius: "5px 0px 0px 0px" }}>Id</th>
+                <th>Nome</th>
+                <th>E-mail</th>
+                <th>Telefone</th>
+                <th>Data</th>
+                <th
+                  style={{ borderRadius: "0px 5px 0px 0px", textAlign: "center" }}
+                >
+                  Ações
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {users.map((row: any) => {
+                return (
+                  <TableRow
+                    key={row.id}
+                    id={row.id}
+                    name={row.nome}
+                    email={row.email}
+                    createdAt={row.createdAt}
+                    phone={row.telefone}
+                    onDelete={() => handleDelete(row.id)}
+                    onEdit={() => console.log('editar')}
+                  />
+                );
+              })}
+            </tbody>
+          </table>
+          <div className="div-pagination">
+            <button
+              className="rounded-btn mini"
+              disabled={page == 1}
+              onClick={(e) => handleChangePage(page - 1)}
+            >
+              {"<"}
+            </button>
+            {totalPages.map((a) => {
               return (
-                <TableRow
-                  key={row.id}
-                  id={row.id}
-                  name={row.nome}
-                  email={row.email}
-                  createdAt={row.createdAt}
-                  phone={row.telefone}
-                  onDelete={() => handleDelete(row.id)}
-                  onEdit={() => navigate.push(`user/${row.id}`)}
-                />
+                <button
+                  className={`rounded-btn mini page-btn ${a == 1 ? 'active' : ''}`}
+                  key={a}
+                  value={a}
+                  onClick={(e: any) => handleChangePage(e.target.value)}
+                >
+                  {a}
+                </button>
               );
             })}
-          </tbody>
-        </table>
-        <div className="div-pagination">
-          <button
-            className="rounded-btn mini"
-            disabled={page == 1}
-            onClick={(e) => handleChangePage(page - 1)}
-          >
-            {"<"}
-          </button>
-          {totalPages.map((a) => {
-            return (
-              <button
-                className={`rounded-btn mini page-btn ${a == 1 ? 'active' : ''}`}
-                key={a}
-                value={a}
-                onClick={(e:any) => handleChangePage(e.target.value)}
-              >
-                {a}
-              </button>
-            );
-          })}
-          {total > 1 && (
-            <>
-              <button
-                style={{ opacity: 1 }}
-                className="rounded-btn mini"
-                disabled
-              >
-                . . .
-              </button>
+            {total > 1 && (
+              <>
+                <button
+                  style={{ opacity: 1 }}
+                  className="rounded-btn mini"
+                  disabled
+                >
+                  . . .
+                </button>
 
-              <button
-                value={total}
-                className="rounded-btn mini page-btn"
-                onClick={(e: any) => handleChangePage(e.target.value)}
-              >
-                {total}
-              </button>
-            </>
-          )}
-          <button
-            className="rounded-btn mini"
-            disabled={page == total}
-            onClick={() => handleChangePage(page + 1)}
-          >
-            {">"}
-          </button>
+                <button
+                  value={total}
+                  className="rounded-btn mini page-btn"
+                  onClick={(e: any) => handleChangePage(e.target.value)}
+                >
+                  {total}
+                </button>
+              </>
+            )}
+            <button
+              className="rounded-btn mini"
+              disabled={page == total}
+              onClick={() => handleChangePage(page + 1)}
+            >
+              {">"}
+            </button>
+          </div>
         </div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
 

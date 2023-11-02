@@ -18,7 +18,7 @@ export const CreateCompany = async (model: CompanyParams) => {
 
 export const GetCompanyList = async (page: number) => {
     const { data } = await Api.get(`empresa?page=${page}`);
-    return data;
+    return data.empresa;
 };
 
 export const GetCompany = async (id: number) => {

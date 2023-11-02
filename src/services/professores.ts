@@ -26,7 +26,7 @@ export const CreateProfessor = async (model: ProfessorParams) => {
 
 export const GetProfessorList = async (page: number) => {
     const { data } = await Api.get(`professor?page=${page}`);
-    return data;
+    return data.professor;
 };
 
 export const GetProfessor = async (id: number) => {
