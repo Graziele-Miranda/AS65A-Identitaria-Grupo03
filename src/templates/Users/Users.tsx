@@ -1,5 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
+
 import icAdd from "../../assets/add.svg";
 import TableRow from "../../components/TableRow";
 import { DeleteUser, GetUserList } from "../../services/usuarios";
@@ -7,6 +8,9 @@ import "./Users.css";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { getUserAuth } from "../../utils/storages";
+import AddUserModal from "../../components/Modal/AddUserModal";
+
+
 
 function UsersTemplate() {
   const navigate = useRouter();
@@ -14,6 +18,31 @@ function UsersTemplate() {
   const [total, setTotal] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<any>([1]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingUser, setEditingUser] = useState(null);
+  const [isEdit, setIsEdit] = useState(false);
+
+
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleEdit = (user, isEdit) => {
+    setEditingUser(user);
+    setIsModalOpen(true);
+    setIsEdit(isEdit);
+  };
+
+  const handleAdd = () => {
+    setEditingUser(null);
+    setIsModalOpen(true);
+  };
+  
 
   const handleChangePage = async (e) => {
     setPage(e);
@@ -64,7 +93,8 @@ function UsersTemplate() {
             <h2>Usuários</h2>
             <p style={{ opacity: 0.6 }}>Listagem de usuários</p>
           </div>
-          <button className="rounded-btn">
+          <button className="rounded-btn" onClick={handleAdd}>
+
             <Image src={icAdd} alt="" />
           </button>
         </div>
@@ -95,7 +125,8 @@ function UsersTemplate() {
                     createdAt={row.createdAt}
                     phone={row.telefone}
                     onDelete={() => handleDelete(row.id)}
-                    onEdit={() => console.log('editar')}
+                    onEdit={() => handleEdit(row, true)}
+              
                   />
                 );
               })}
@@ -149,6 +180,9 @@ function UsersTemplate() {
             </button>
           </div>
         </div>
+            {isModalOpen && (
+              <AddUserModal closeModal={closeModal} editingUser={editingUser} isEdit={isEdit} />
+            )}
       </section>
     </>
   );

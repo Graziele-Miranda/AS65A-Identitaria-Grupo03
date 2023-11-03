@@ -1,45 +1,43 @@
-import React, { useState, useEffect } from "react";
-import "../Modal/AddCompanieModal.css";
-import "./AddCompanieModal.css";
+import React, { useState,useEffect } from "react";
+import "../Modal/AddUserModal.css";
+import "./AddUserModal.css";
 
-interface AddCompanieModalProps {
+interface AddUserModalProps {
   closeModal: () => void;
-  editingCompanie: any;
+  editingUser: any;
   isEdit?: boolean;
 }
 
-const AddCompanieModal: React.FC<AddCompanieModalProps> = ({
-  closeModal,
-  editingCompanie,
-  isEdit,
-}) => {
+const AddUserModal: React.FC<AddUserModalProps> = ({ closeModal, editingUser, isEdit }) => {
   const [formData, setFormData] = useState({
     nome: "",
-    cnpj: "",
+    cpf: "",
+    idade: "",
     rua: "",
     cidade: "",
     telefone: "",
     email: "",
+    profissao: "",
     apoiador: false,
     voluntario: false,
   });
 
   useEffect(() => {
-    if ( editingCompanie) {
-
+    if (editingUser) {
       setFormData({
-        nome: editingCompanie.nome || "",
-        cnpj: editingCompanie.cnpj || "",
-        rua: editingCompanie.rua || "",
-        cidade: editingCompanie.cidade || "",
-        telefone: editingCompanie.telefone || "",
-        email: editingCompanie.email || "",
-        apoiador: editingCompanie.apoiador || false,
-        voluntario: editingCompanie.voluntario || false,
+        nome: editingUser.nome || "",
+        cpf: editingUser.cpf || "",
+        idade: editingUser.idade || "",
+        rua: editingUser.rua || "",
+        cidade: editingUser.cidade || "",
+        telefone: editingUser.telefone || "",
+        email: editingUser.email || "",
+        profissao: editingUser.profissao || "",
+        apoiador: editingUser.apoiador || false,
+        voluntario: editingUser.voluntario || false,
       });
     }
-  }, [editingCompanie]);
-
+  }, [editingUser]);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
     setFormData({
@@ -56,10 +54,11 @@ const AddCompanieModal: React.FC<AddCompanieModalProps> = ({
   return (
     <div className="modal-overlay">
       <div className="modal">
-        <button className="close-button" onClick={closeModal}>
+        <button className="close-button" onClick={closeModal} >
           X
         </button>
-        <h2>{isEdit ? "Editar Empresa" : "Cadastro de Empresas"}</h2>
+        <h2>{isEdit ? "Editar Usuários" : "Cadastro de Usuários"}</h2>
+        
         <form onSubmit={handleSubmit}>
           <label>
             Nome:
@@ -72,15 +71,16 @@ const AddCompanieModal: React.FC<AddCompanieModalProps> = ({
             />
           </label>
           <label>
-            CNPJ:
+            CPF:
             <input
               type="text"
-              name="cnpj"
-              value={formData.cnpj}
+              name="cpf"
+              value={formData.cpf}
               onChange={handleChange}
               required
             />
           </label>
+          <div className="input-row">
           <label>
             Rua:
             <input
@@ -99,6 +99,7 @@ const AddCompanieModal: React.FC<AddCompanieModalProps> = ({
               onChange={handleChange}
             />
           </label>
+          </div>
           <label>
             Telefone:
             <input
@@ -117,6 +118,28 @@ const AddCompanieModal: React.FC<AddCompanieModalProps> = ({
               onChange={handleChange}
             />
           </label>
+
+          <div className="input-row">
+  <label>
+    Idade:
+    <input
+      type="text"
+      name="idade"
+      value={formData.idade}
+      onChange={handleChange}
+    />
+  </label>
+  <label>
+    Profissão:
+    <input
+      type="text"
+      name="profissao"
+      value={formData.profissao}
+      onChange={handleChange}
+    />
+  </label>
+</div>
+
           <div className="checkbox-group">
       <label>
         Apoiador:
@@ -144,4 +167,4 @@ const AddCompanieModal: React.FC<AddCompanieModalProps> = ({
   );
 };
 
-export default AddCompanieModal;
+export default AddUserModal;

@@ -1,22 +1,20 @@
-"use client";
-import { useRouter } from "next/navigation";
-import React, { useState } from "react";
+
+import React, { useState, useEffect } from "react";
 import icAdd from "../../assets/add.svg";
 import TableRow from "../../components/TableRow";
 import { DeleteCompany, GetCompanyList } from "../../services/empresas";
 import "./Companies.css";
 import Image from "next/image";
-import { useEffect } from "react";
-import { getUserAuth } from "../../utils/storages";
 import AddCompanieModal from "../../components/Modal/AddCompanieModal";
 
 function CompaniesTemplate() {
-  const navigate = useRouter();
-  const [companies, setCompanies] = useState<any>([]);
-  const [total, setTotal] = useState<number>(0);
-  const [page, setPage] = useState<number>(1);
-  const [totalPages, setTotalPages] = useState<any>([1]);
+  const [companies, setCompanies] = useState([]);
+  const [total, setTotal] = useState(0);
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState([1]);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingCompany, setEditingCompany] = useState(null);
+  const [isEdit, setIsEdit] = useState(false); 
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -24,6 +22,12 @@ function CompaniesTemplate() {
 
   const closeModal = () => {
     setIsModalOpen(false);
+  };
+
+  const handleEdit = (company, isEdit) => {
+    setEditingCompany(company);
+    setIsModalOpen(true);
+    setIsEdit(isEdit); 
   };
 
   const handleChangePage = async (e) => {
@@ -40,20 +44,14 @@ function CompaniesTemplate() {
   };
 
   const handleDelete = async (e) => {
-    await DeleteCompany(e)
+    await DeleteCompany(e);
     const temp = await GetCompanyList(1);
     setCompanies(temp.data);
-  }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!getUserAuth()) {
-        navigate.push('/')
-        return;
-      }
-
       const temp = await GetCompanyList(page);
-      console.log(temp)
       setCompanies(temp.data);
       setTotal(Math.round(temp.total / 10));
 
@@ -61,15 +59,14 @@ function CompaniesTemplate() {
       for (let index = 1; index < temp.total / 10; index++) {
         tempPages.push(index);
       }
-      console.log(tempPages);
       setTotalPages(tempPages);
     };
     fetchData();
-  }, []);
+  }, [page]);
 
   return (
     <>
-      <title>Professores</title>
+      <title>Empresas</title>
       <section id="companies">
         <div className="vl_title">
           <div>
@@ -97,56 +94,49 @@ function CompaniesTemplate() {
               </tr>
             </thead>
             <tbody>
-              {companies.map((row: any) => {
-                return (
-                  <TableRow
-                    key={row.id}
-                    id={row.id}
-                    name={row.nome}
-                    email={row.email}
-                    createdAt={row.createdAt}
-                    phone={row.telefone}
-                    onDelete={() => handleDelete(row.id)}
-                    onEdit={() => console.log('editar')}
-                  />
-                );
-              })}
+              {companies.map((row) => (
+                <TableRow
+                  key={row.id}
+                  id={row.id}
+                  name={row.nome}
+                  email={row.email}
+                  createdAt={row.createdAt}
+                  phone={row.telefone}
+                  onDelete={() => handleDelete(row.id)}
+                  onEdit={() => handleEdit(row, true)}
+
+                />
+              ))}
             </tbody>
           </table>
           <div className="div-pagination">
             <button
               className="rounded-btn mini"
-              disabled={page == 1}
-              onClick={(e) => handleChangePage(page - 1)}
+              disabled={page === 1}
+              onClick={() => handleChangePage(page - 1)}
             >
               {"<"}
             </button>
-            {totalPages.map((a) => {
-              return (
-                <button
-                  className={`rounded-btn mini page-btn ${a == 1 ? 'active' : ''}`}
-                  key={a}
-                  value={a}
-                  onClick={(e: any) => handleChangePage(e.target.value)}
-                >
-                  {a}
-                </button>
-              );
-            })}
+            {totalPages.map((a) => (
+              <button
+                className={`rounded-btn mini page-btn ${a === 1 ? "active" : ""}`}
+                key={a}
+                value={a}
+                onClick={(e) => handleChangePage(e.target.value)}
+              >
+                {a}
+              </button>
+            ))}
             {total > 1 && (
               <>
-                <button
-                  style={{ opacity: 1 }}
-                  className="rounded-btn mini"
-                  disabled
-                >
+                <button style={{ opacity: 1 }} className="rounded-btn mini" disabled>
                   . . .
                 </button>
 
                 <button
                   value={total}
                   className="rounded-btn mini page-btn"
-                  onClick={(e: any) => handleChangePage(e.target.value)}
+                  onClick={(e) => handleChangePage(e.target.value)}
                 >
                   {total}
                 </button>
@@ -154,7 +144,7 @@ function CompaniesTemplate() {
             )}
             <button
               className="rounded-btn mini"
-              disabled={page == total}
+              disabled={page === total}
               onClick={() => handleChangePage(page + 1)}
             >
               {">"}
@@ -162,7 +152,10 @@ function CompaniesTemplate() {
           </div>
         </div>
       </section>
-      {isModalOpen && <AddCompanieModal closeModal={closeModal} />}
+      {isModalOpen && (
+        <AddCompanieModal closeModal={closeModal} editingCompanie={editingCompany}
+       isEdit={isEdit} />
+      )}
     </>
   );
 }

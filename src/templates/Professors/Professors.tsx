@@ -7,6 +7,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { DeleteProfessor, GetProfessorList } from "../../services/professores";
 import { getUserAuth } from "../../utils/storages";
+import AddProfessorModal from "../../components/Modal/AddProfessorModal";
 
 function ProfessorsTemplate() {
   const navigate = useRouter();
@@ -14,6 +15,27 @@ function ProfessorsTemplate() {
   const [total, setTotal] = useState<number>(0);
   const [page, setPage] = useState<number>(1);
   const [totalPages, setTotalPages] = useState<any>([1]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingProfessor, setEditingProfessor] = useState(null);
+  const [isEdit, setIsEdit] = useState(false);
+
+  const openModal = () => {
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+  const handleEdit = (professor, isEdit) => {
+    setEditingProfessor(professor);
+    setIsModalOpen(true);
+    setIsEdit(isEdit);
+  };
+
+  const handleAdd = () => {
+    setEditingProfessor(null);
+    setIsModalOpen(true);
+  };
 
   const handleChangePage = async (e) => {
     setPage(e);
@@ -29,15 +51,15 @@ function ProfessorsTemplate() {
   };
 
   const handleDelete = async (e) => {
-    await DeleteProfessor(e)
+    await DeleteProfessor(e);
     const temp = await GetProfessorList(1);
     setUsers(temp.data);
-  }
+  };
 
   useEffect(() => {
     const fetchData = async () => {
       if (!getUserAuth()) {
-        navigate.push('/')
+        navigate.push("/");
         return;
       }
 
@@ -64,7 +86,7 @@ function ProfessorsTemplate() {
             <h2>Professores</h2>
             <p style={{ opacity: 0.6 }}>Listagem de professores</p>
           </div>
-          <button className="rounded-btn">
+          <button className="rounded-btn" onClick={openModal}>
             <Image src={icAdd} alt="" />
           </button>
         </div>
@@ -78,7 +100,10 @@ function ProfessorsTemplate() {
                 <th>Telefone</th>
                 <th>Data</th>
                 <th
-                  style={{ borderRadius: "0px 5px 0px 0px", textAlign: "center" }}
+                  style={{
+                    borderRadius: "0px 5px 0px 0px",
+                    textAlign: "center",
+                  }}
                 >
                   Ações
                 </th>
@@ -95,7 +120,7 @@ function ProfessorsTemplate() {
                     createdAt={row.createdAt}
                     phone={row.telefone}
                     onDelete={() => handleDelete(row.id)}
-                    onEdit={() => console.log('editar')}
+                    onEdit={() => handleEdit(row, true)}
                   />
                 );
               })}
@@ -112,7 +137,9 @@ function ProfessorsTemplate() {
             {totalPages.map((a) => {
               return (
                 <button
-                  className={`rounded-btn mini page-btn ${a == 1 ? 'active' : ''}`}
+                  className={`rounded-btn mini page-btn ${
+                    a == 1 ? "active" : ""
+                  }`}
                   key={a}
                   value={a}
                   onClick={(e: any) => handleChangePage(e.target.value)}
@@ -149,6 +176,13 @@ function ProfessorsTemplate() {
             </button>
           </div>
         </div>
+        {isModalOpen && (
+          <AddProfessorModal
+            closeModal={closeModal}
+            editingProfessor={editingProfessor}
+            isEdit={isEdit}
+          />
+        )}
       </section>
     </>
   );
