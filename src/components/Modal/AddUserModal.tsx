@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../Modal/AddUserModal.css";
 import "./AddUserModal.css";
+import { UpdateUser, CreateUser } from "../../services/usuarios";
 
 interface AddUserModalProps {
   closeModal: () => void;
@@ -28,10 +29,8 @@ const AddUserModal: React.FC<AddUserModalProps> = ({
 
   useEffect(() => {
     if (isEdit) {
-      // Se estamos no modo de edição, preencha o formulário com os detalhes do usuário
       setFormData({ ...editingUser });
     } else {
-      // Caso contrário, redefina o formulário para o estado inicial
       setFormData({
         nome: "",
         cpf: "",
@@ -55,9 +54,27 @@ const AddUserModal: React.FC<AddUserModalProps> = ({
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    closeModal();
+
+    try {
+      if (isEdit) {
+        await UpdateUser(editingUser.id, formData);
+        console.log("Usuário atualizado com sucesso.");
+      } else {
+        await CreateUser(formData);
+        console.log("Usuário criado com sucesso.");
+      }
+      closeModal();
+    } catch (error) {
+      if (error.response) {
+        console.error("Erro de resposta do servidor:", error.response.data);
+      } else if (error.request) {
+        console.error("Sem resposta do servidor:", error.request);
+      } else {
+        console.error("Erro de configuração da solicitação:", error.message);
+      }
+    }
   };
 
   return (
