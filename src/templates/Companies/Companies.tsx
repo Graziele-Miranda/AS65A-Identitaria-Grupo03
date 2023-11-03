@@ -29,6 +29,12 @@ function CompaniesTemplate() {
     setIsEdit(isEdit);
   };
 
+  const handleAdd = () => {
+    setEditingCompany(null);
+    setIsEdit(false);
+    setIsModalOpen(true);
+  };
+
   const handleChangePage = async (e) => {
     setPage(e);
     if (!!document) {
@@ -72,7 +78,7 @@ function CompaniesTemplate() {
             <h2>Empresas</h2>
             <p style={{ opacity: 0.6 }}>Listagem de empresas</p>
           </div>
-          <button className="rounded-btn" onClick={openModal}>
+          <button className="rounded-btn" onClick={handleAdd}>
             <Image src={icAdd} alt="" />
           </button>
         </div>

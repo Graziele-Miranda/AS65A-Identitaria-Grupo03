@@ -27,21 +27,26 @@ const AddUserModal: React.FC<AddUserModalProps> = ({
   });
 
   useEffect(() => {
-    if (editingUser) {
+    if (isEdit) {
+      // Se estamos no modo de edição, preencha o formulário com os detalhes do usuário
+      setFormData({ ...editingUser });
+    } else {
+      // Caso contrário, redefina o formulário para o estado inicial
       setFormData({
-        nome: editingUser.nome || "",
-        cpf: editingUser.cpf || "",
-        idade: editingUser.idade || "",
-        rua: editingUser.rua || "",
-        cidade: editingUser.cidade || "",
-        telefone: editingUser.telefone || "",
-        email: editingUser.email || "",
-        profissao: editingUser.profissao || "",
-        apoiador: editingUser.apoiador || false,
-        voluntario: editingUser.voluntario || false,
+        nome: "",
+        cpf: "",
+        idade: "",
+        rua: "",
+        cidade: "",
+        telefone: "",
+        email: "",
+        profissao: "",
+        apoiador: false,
+        voluntario: false,
       });
     }
-  }, [editingUser]);
+  }, [editingUser, isEdit]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
     setFormData({

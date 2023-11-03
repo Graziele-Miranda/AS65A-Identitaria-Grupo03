@@ -28,15 +28,16 @@ function UsersTemplate() {
     setIsModalOpen(false);
   };
 
+  const handleAdd = () => {
+    setEditingUser(null);
+    setIsEdit(false);
+    setIsModalOpen(true);
+  };
+
   const handleEdit = (user, isEdit) => {
     setEditingUser(user);
     setIsModalOpen(true);
     setIsEdit(isEdit);
-  };
-
-  const handleAdd = () => {
-    setEditingUser(null);
-    setIsModalOpen(true);
   };
 
   const handleChangePage = async (e) => {
