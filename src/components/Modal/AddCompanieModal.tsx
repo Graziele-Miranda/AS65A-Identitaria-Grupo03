@@ -25,8 +25,7 @@ const AddCompanieModal: React.FC<AddCompanieModalProps> = ({
   });
 
   useEffect(() => {
-    if ( editingCompanie) {
-
+    if (editingCompanie) {
       setFormData({
         nome: editingCompanie.nome || "",
         cnpj: editingCompanie.cnpj || "",
@@ -118,25 +117,25 @@ const AddCompanieModal: React.FC<AddCompanieModalProps> = ({
             />
           </label>
           <div className="checkbox-group">
-      <label>
-        Apoiador:
-        <input
-          type="checkbox"
-          name="apoiador"
-          checked={formData.apoiador}
-          onChange={handleChange}
-        />
-      </label>
-      <label>
-        Voluntário:
-        <input
-          type="checkbox"
-          name="voluntario"
-          checked={formData.voluntario}
-          onChange={handleChange}
-        />
-      </label>
-    </div>
+            <label>
+              Apoiador:
+              <input
+                type="checkbox"
+                name="apoiador"
+                checked={formData.apoiador}
+                onChange={handleChange}
+              />
+            </label>
+            <label>
+              Voluntário:
+              <input
+                type="checkbox"
+                name="voluntario"
+                checked={formData.voluntario}
+                onChange={handleChange}
+              />
+            </label>
+          </div>
           <button type="submit">{isEdit ? "Salvar" : "Cadastrar"}</button>
         </form>
       </div>

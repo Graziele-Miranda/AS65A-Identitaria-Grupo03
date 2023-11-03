@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "../Modal/AddUserModal.css";
 import "./AddUserModal.css";
 
@@ -8,7 +8,11 @@ interface AddUserModalProps {
   isEdit?: boolean;
 }
 
-const AddUserModal: React.FC<AddUserModalProps> = ({ closeModal, editingUser, isEdit }) => {
+const AddUserModal: React.FC<AddUserModalProps> = ({
+  closeModal,
+  editingUser,
+  isEdit,
+}) => {
   const [formData, setFormData] = useState({
     nome: "",
     cpf: "",
@@ -54,11 +58,11 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ closeModal, editingUser, is
   return (
     <div className="modal-overlay">
       <div className="modal">
-        <button className="close-button" onClick={closeModal} >
+        <button className="close-button" onClick={closeModal}>
           X
         </button>
         <h2>{isEdit ? "Editar Usuários" : "Cadastro de Usuários"}</h2>
-        
+
         <form onSubmit={handleSubmit}>
           <label>
             Nome:
@@ -81,24 +85,24 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ closeModal, editingUser, is
             />
           </label>
           <div className="input-row">
-          <label>
-            Rua:
-            <input
-              type="text"
-              name="rua"
-              value={formData.rua}
-              onChange={handleChange}
-            />
-          </label>
-          <label>
-            Cidade:
-            <input
-              type="text"
-              name="cidade"
-              value={formData.cidade}
-              onChange={handleChange}
-            />
-          </label>
+            <label>
+              Rua:
+              <input
+                type="text"
+                name="rua"
+                value={formData.rua}
+                onChange={handleChange}
+              />
+            </label>
+            <label>
+              Cidade:
+              <input
+                type="text"
+                name="cidade"
+                value={formData.cidade}
+                onChange={handleChange}
+              />
+            </label>
           </div>
           <label>
             Telefone:
@@ -120,46 +124,46 @@ const AddUserModal: React.FC<AddUserModalProps> = ({ closeModal, editingUser, is
           </label>
 
           <div className="input-row">
-  <label>
-    Idade:
-    <input
-      type="text"
-      name="idade"
-      value={formData.idade}
-      onChange={handleChange}
-    />
-  </label>
-  <label>
-    Profissão:
-    <input
-      type="text"
-      name="profissao"
-      value={formData.profissao}
-      onChange={handleChange}
-    />
-  </label>
-</div>
+            <label>
+              Idade:
+              <input
+                type="text"
+                name="idade"
+                value={formData.idade}
+                onChange={handleChange}
+              />
+            </label>
+            <label>
+              Profissão:
+              <input
+                type="text"
+                name="profissao"
+                value={formData.profissao}
+                onChange={handleChange}
+              />
+            </label>
+          </div>
 
           <div className="checkbox-group">
-      <label>
-        Apoiador:
-        <input
-          type="checkbox"
-          name="apoiador"
-          checked={formData.apoiador}
-          onChange={handleChange}
-        />
-      </label>
-      <label>
-        Voluntário:
-        <input
-          type="checkbox"
-          name="voluntario"
-          checked={formData.voluntario}
-          onChange={handleChange}
-        />
-      </label>
-    </div>
+            <label>
+              Apoiador:
+              <input
+                type="checkbox"
+                name="apoiador"
+                checked={formData.apoiador}
+                onChange={handleChange}
+              />
+            </label>
+            <label>
+              Voluntário:
+              <input
+                type="checkbox"
+                name="voluntario"
+                checked={formData.voluntario}
+                onChange={handleChange}
+              />
+            </label>
+          </div>
           <button type="submit">{isEdit ? "Salvar" : "Cadastrar"}</button>
         </form>
       </div>

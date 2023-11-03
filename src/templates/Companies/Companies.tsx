@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import icAdd from "../../assets/add.svg";
 import TableRow from "../../components/TableRow";
@@ -14,7 +13,7 @@ function CompaniesTemplate() {
   const [totalPages, setTotalPages] = useState([1]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingCompany, setEditingCompany] = useState(null);
-  const [isEdit, setIsEdit] = useState(false); 
+  const [isEdit, setIsEdit] = useState(false);
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -27,7 +26,7 @@ function CompaniesTemplate() {
   const handleEdit = (company, isEdit) => {
     setEditingCompany(company);
     setIsModalOpen(true);
-    setIsEdit(isEdit); 
+    setIsEdit(isEdit);
   };
 
   const handleChangePage = async (e) => {
@@ -87,7 +86,10 @@ function CompaniesTemplate() {
                 <th>Telefone</th>
                 <th>Data</th>
                 <th
-                  style={{ borderRadius: "0px 5px 0px 0px", textAlign: "center" }}
+                  style={{
+                    borderRadius: "0px 5px 0px 0px",
+                    textAlign: "center",
+                  }}
                 >
                   Ações
                 </th>
@@ -104,7 +106,6 @@ function CompaniesTemplate() {
                   phone={row.telefone}
                   onDelete={() => handleDelete(row.id)}
                   onEdit={() => handleEdit(row, true)}
-
                 />
               ))}
             </tbody>
@@ -119,7 +120,9 @@ function CompaniesTemplate() {
             </button>
             {totalPages.map((a) => (
               <button
-                className={`rounded-btn mini page-btn ${a === 1 ? "active" : ""}`}
+                className={`rounded-btn mini page-btn ${
+                  a === 1 ? "active" : ""
+                }`}
                 key={a}
                 value={a}
                 onClick={(e) => handleChangePage(e.target.value)}
@@ -129,7 +132,11 @@ function CompaniesTemplate() {
             ))}
             {total > 1 && (
               <>
-                <button style={{ opacity: 1 }} className="rounded-btn mini" disabled>
+                <button
+                  style={{ opacity: 1 }}
+                  className="rounded-btn mini"
+                  disabled
+                >
                   . . .
                 </button>
 
@@ -153,8 +160,11 @@ function CompaniesTemplate() {
         </div>
       </section>
       {isModalOpen && (
-        <AddCompanieModal closeModal={closeModal} editingCompanie={editingCompany}
-       isEdit={isEdit} />
+        <AddCompanieModal
+          closeModal={closeModal}
+          editingCompanie={editingCompany}
+          isEdit={isEdit}
+        />
       )}
     </>
   );

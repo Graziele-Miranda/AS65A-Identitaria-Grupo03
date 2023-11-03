@@ -10,8 +10,6 @@ import { useEffect, useState } from "react";
 import { getUserAuth } from "../../utils/storages";
 import AddUserModal from "../../components/Modal/AddUserModal";
 
-
-
 function UsersTemplate() {
   const navigate = useRouter();
   const [users, setUsers] = useState<any>([]);
@@ -21,8 +19,6 @@ function UsersTemplate() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState(null);
   const [isEdit, setIsEdit] = useState(false);
-
-
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -42,7 +38,6 @@ function UsersTemplate() {
     setEditingUser(null);
     setIsModalOpen(true);
   };
-  
 
   const handleChangePage = async (e) => {
     setPage(e);
@@ -58,14 +53,14 @@ function UsersTemplate() {
   };
 
   const handleDelete = async (e) => {
-    await DeleteUser(e)
+    await DeleteUser(e);
     const temp = await GetUserList(1);
     setUsers(temp.data);
-  }
+  };
 
   useEffect(() => {
     if (!getUserAuth()) {
-      navigate.push('/')
+      navigate.push("/");
       return;
     }
 
@@ -94,7 +89,6 @@ function UsersTemplate() {
             <p style={{ opacity: 0.6 }}>Listagem de usuários</p>
           </div>
           <button className="rounded-btn" onClick={handleAdd}>
-
             <Image src={icAdd} alt="" />
           </button>
         </div>
@@ -108,7 +102,10 @@ function UsersTemplate() {
                 <th>Telefone</th>
                 <th>Data</th>
                 <th
-                  style={{ borderRadius: "0px 5px 0px 0px", textAlign: "center" }}
+                  style={{
+                    borderRadius: "0px 5px 0px 0px",
+                    textAlign: "center",
+                  }}
                 >
                   Ações
                 </th>
@@ -126,7 +123,6 @@ function UsersTemplate() {
                     phone={row.telefone}
                     onDelete={() => handleDelete(row.id)}
                     onEdit={() => handleEdit(row, true)}
-              
                   />
                 );
               })}
@@ -143,7 +139,9 @@ function UsersTemplate() {
             {totalPages.map((a) => {
               return (
                 <button
-                  className={`rounded-btn mini page-btn ${a == 1 ? 'active' : ''}`}
+                  className={`rounded-btn mini page-btn ${
+                    a == 1 ? "active" : ""
+                  }`}
                   key={a}
                   value={a}
                   onClick={(e: any) => handleChangePage(e.target.value)}
@@ -180,9 +178,13 @@ function UsersTemplate() {
             </button>
           </div>
         </div>
-            {isModalOpen && (
-              <AddUserModal closeModal={closeModal} editingUser={editingUser} isEdit={isEdit} />
-            )}
+        {isModalOpen && (
+          <AddUserModal
+            closeModal={closeModal}
+            editingUser={editingUser}
+            isEdit={isEdit}
+          />
+        )}
       </section>
     </>
   );
