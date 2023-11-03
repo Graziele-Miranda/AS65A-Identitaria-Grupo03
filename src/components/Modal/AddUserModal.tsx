@@ -28,10 +28,10 @@ const AddUserModal: React.FC<AddUserModalProps> = ({
 
   useEffect(() => {
     if (isEdit) {
-      // Se estamos no modo de edição, preencha o formulário com os detalhes do usuário
+  
       setFormData({ ...editingUser });
     } else {
-      // Caso contrário, redefina o formulário para o estado inicial
+     
       setFormData({
         nome: "",
         cpf: "",
