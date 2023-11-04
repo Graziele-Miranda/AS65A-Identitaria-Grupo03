@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../Modal/AddCompanieModal.css";
 import "./AddCompanieModal.css";
+import { CreateCompany, UpdateCompany } from "../../services/empresas";
 
 interface AddCompanieModalProps {
   closeModal: () => void;
@@ -47,8 +48,19 @@ const AddCompanieModal: React.FC<AddCompanieModalProps> = ({
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    try {
+      if (isEdit) {
+        await UpdateCompany(editingCompanie.id, formData);
+      } else {
+        await CreateCompany(formData);
+      }
+    } catch (error) {
+      console.error("Erro ao salvar empresa", error);
+    }
+
     closeModal();
   };
 

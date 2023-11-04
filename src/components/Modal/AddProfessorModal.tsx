@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../Modal/AddProfessorModal.css";
+import { CreateProfessor, UpdateProfessor } from "../../services/professores";
 
 interface AddProfessorModalProps {
   closeModal: () => void;
@@ -54,8 +55,19 @@ const AddProfessorModal: React.FC<AddProfessorModalProps> = ({
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    try {
+      if (isEdit) {
+        await UpdateProfessor(editingProfessor.id, formData);
+      } else {
+        await CreateProfessor(formData);
+      }
+    } catch (error) {
+      console.error("Erro ao salvar professor", error);
+    }
+
     closeModal();
   };
 

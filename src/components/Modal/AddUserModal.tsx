@@ -60,21 +60,14 @@ const AddUserModal: React.FC<AddUserModalProps> = ({
     try {
       if (isEdit) {
         await UpdateUser(editingUser.id, formData);
-        console.log("Usuário atualizado com sucesso.");
       } else {
         await CreateUser(formData);
-        console.log("Usuário criado com sucesso.");
       }
-      closeModal();
     } catch (error) {
-      if (error.response) {
-        console.error("Erro de resposta do servidor:", error.response.data);
-      } else if (error.request) {
-        console.error("Sem resposta do servidor:", error.request);
-      } else {
-        console.error("Erro de configuração da solicitação:", error.message);
-      }
+      console.error("Erro ao salvar o usuário:", error);
     }
+
+    closeModal();
   };
 
   return (
