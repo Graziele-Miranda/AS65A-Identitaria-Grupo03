@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import "../Modal/AddCompanieModal.css";
 import "./AddCompanieModal.css";
-import { CreateCompany, UpdateCompany } from "../../services/empresas";
+import { CreateCompany, UpdateCompany } from "../../../services/empresas";
+import { mCnpj, mPhone } from "../../../utils/masks";
+import Image from "next/image";
+import icAdd from "../../../assets/add.svg";
 
 interface AddCompanieModalProps {
   closeModal: () => void;
@@ -67,8 +69,8 @@ const AddCompanieModal: React.FC<AddCompanieModalProps> = ({
   return (
     <div className="modal-overlay">
       <div className="modal">
-        <button className="close-button" onClick={closeModal}>
-          X
+        <button className="rounded-btn close-button" onClick={closeModal}>
+          <Image src={icAdd} alt="" />
         </button>
         <h2>{isEdit ? "Editar Empresa" : "Cadastro de Empresas"}</h2>
         <form onSubmit={handleSubmit}>
@@ -88,8 +90,37 @@ const AddCompanieModal: React.FC<AddCompanieModalProps> = ({
               type="text"
               name="cnpj"
               value={formData.cnpj}
-              onChange={handleChange}
+
+              onChange={(e) => {
+                const temp = mCnpj(e.target.value);
+
+                setFormData({ ...formData, cnpj: temp })
+              }}
+              maxLength={18}
               required
+            />
+          </label>
+          <label>
+            Telefone:
+            <input
+              type="text"
+              name="telefone"
+              value={formData.telefone}
+              onChange={(e) => {
+                const temp = mPhone(e.target.value);
+
+                setFormData({ ...formData, telefone: temp })
+              }}
+              maxLength={15}
+            />
+          </label>
+          <label>
+            Email:
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
             />
           </label>
           <label>
@@ -110,45 +141,33 @@ const AddCompanieModal: React.FC<AddCompanieModalProps> = ({
               onChange={handleChange}
             />
           </label>
-          <label>
-            Telefone:
-            <input
-              type="text"
-              name="telefone"
-              value={formData.telefone}
-              onChange={handleChange}
-            />
-          </label>
-          <label>
-            Email:
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-            />
-          </label>
-          <div className="checkbox-group">
-            <label>
-              Apoiador:
-              <input
-                type="checkbox"
-                name="apoiador"
-                checked={formData.apoiador}
-                onChange={handleChange}
-              />
-            </label>
-            <label>
-              Voluntário:
-              <input
-                type="checkbox"
-                name="voluntario"
-                checked={formData.voluntario}
-                onChange={handleChange}
-              />
-            </label>
+          <div style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: 'center'
+          }}>
+            <div className="checkbox-group">
+              <label>
+                Apoiador:
+                <input
+                  type="checkbox"
+                  name="apoiador"
+                  checked={formData.apoiador}
+                  onChange={handleChange}
+                />
+              </label>
+              <label>
+                Voluntário:
+                <input
+                  type="checkbox"
+                  name="voluntario"
+                  checked={formData.voluntario}
+                  onChange={handleChange}
+                />
+              </label>
+            </div>
+            <button type="submit">{isEdit ? "Salvar" : "Cadastrar"}</button>
           </div>
-          <button type="submit">{isEdit ? "Salvar" : "Cadastrar"}</button>
         </form>
       </div>
     </div>

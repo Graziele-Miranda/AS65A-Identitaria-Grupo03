@@ -8,7 +8,7 @@ import "./Users.css";
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import { getUserAuth } from "../../utils/storages";
-import AddUserModal from "../../components/Modal/AddUserModal";
+import AddUserModal from "../../components/Modal/AddUserModal/AddUserModal";
 
 function UsersTemplate() {
   const navigate = useRouter();
@@ -26,6 +26,7 @@ function UsersTemplate() {
 
   const closeModal = () => {
     setIsModalOpen(false);
+    handleChangePage(1)
   };
 
   const handleAdd = () => {
@@ -57,6 +58,13 @@ function UsersTemplate() {
     await DeleteUser(e);
     const temp = await GetUserList(1);
     setUsers(temp.data);
+    setTotal(Math.ceil(temp.total / 10));
+
+    const tempPages = [];
+    for (let index = 1; index < temp.total / 10; index++) {
+      tempPages.push(index);
+    }
+    setTotalPages(tempPages);
   };
 
   useEffect(() => {
@@ -68,13 +76,12 @@ function UsersTemplate() {
     const fetchData = async () => {
       const temp = await GetUserList(page);
       setUsers(temp.data);
-      setTotal(Math.round(temp.total / 10));
+      setTotal(Math.ceil(temp.total / 10));
 
       const tempPages = [];
       for (let index = 1; index < temp.total / 10; index++) {
         tempPages.push(index);
       }
-      console.log(tempPages);
       setTotalPages(tempPages);
     };
     fetchData();
@@ -140,9 +147,8 @@ function UsersTemplate() {
             {totalPages.map((a) => {
               return (
                 <button
-                  className={`rounded-btn mini page-btn ${
-                    a == 1 ? "active" : ""
-                  }`}
+                  className={`rounded-btn mini page-btn ${a == 1 ? "active" : ""
+                    }`}
                   key={a}
                   value={a}
                   onClick={(e: any) => handleChangePage(e.target.value)}

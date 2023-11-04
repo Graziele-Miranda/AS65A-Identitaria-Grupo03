@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
-import "../Modal/AddProfessorModal.css";
-import { CreateProfessor, UpdateProfessor } from "../../services/professores";
+import "./AddProfessorModal.css";
+import { CreateProfessor, UpdateProfessor } from "../../../services/professores";
+import { mCpf, mNumber, mPhone } from "../../../utils/masks";
+import icAdd from "../../../assets/add.svg";
+import Image from "next/image";
 
 interface AddProfessorModalProps {
   closeModal: () => void;
@@ -74,8 +77,8 @@ const AddProfessorModal: React.FC<AddProfessorModalProps> = ({
   return (
     <div className="modal-overlay">
       <div className="modal">
-        <button className="close-button" onClick={closeModal}>
-          X
+        <button className="rounded-btn close-button" onClick={closeModal}>
+          <Image src={icAdd} alt="" />
         </button>
         <h2>{isEdit ? "Editar Professor" : "Cadastro de Professores"}</h2>
         <form onSubmit={handleSubmit}>
@@ -96,31 +99,17 @@ const AddProfessorModal: React.FC<AddProfessorModalProps> = ({
                 type="text"
                 name="cpf"
                 value={formData.cpf}
-                onChange={handleChange}
+                onChange={(e) => {
+                  const temp = mCpf(e.target.value);
+
+                  setFormData({ ...formData, cpf: temp })
+                }}
+                maxLength={15}
                 required
               />
             </label>
           </div>
-          <div className="input-row">
-            <label>
-              Rua:
-              <input
-                type="text"
-                name="rua"
-                value={formData.rua}
-                onChange={handleChange}
-              />
-            </label>
-            <label>
-              Cidade:
-              <input
-                type="text"
-                name="cidade"
-                value={formData.cidade}
-                onChange={handleChange}
-              />
-            </label>
-          </div>
+
           <div className="input-row">
             <label>
               Email:
@@ -138,11 +127,15 @@ const AddProfessorModal: React.FC<AddProfessorModalProps> = ({
                 type="text"
                 name="telefone"
                 value={formData.telefone}
-                onChange={handleChange}
+                onChange={(e) => {
+                  const temp = mPhone(e.target.value);
+
+                  setFormData({ ...formData, telefone: temp })
+                }}
+                maxLength={15}
               />
             </label>
           </div>
-
           <div className="input-row">
             <label>
               Idade:
@@ -150,7 +143,11 @@ const AddProfessorModal: React.FC<AddProfessorModalProps> = ({
                 type="text"
                 name="idade"
                 value={formData.idade}
-                onChange={handleChange}
+                onChange={(e) => {
+                  const temp = mNumber(e.target.value);
+
+                  setFormData({ ...formData, idade: temp })
+                }}
                 required
               />
             </label>
@@ -187,27 +184,53 @@ const AddProfessorModal: React.FC<AddProfessorModalProps> = ({
               />
             </label>
           </div>
-          <div className="checkbox-group">
+          <div className="input-row">
             <label>
-              Apoiador:
+              Rua:
               <input
-                type="checkbox"
-                name="apoiador"
-                checked={formData.apoiador}
+                type="text"
+                name="rua"
+                value={formData.rua}
                 onChange={handleChange}
               />
             </label>
             <label>
-              Voluntário:
+              Cidade:
               <input
-                type="checkbox"
-                name="voluntario"
-                checked={formData.voluntario}
+                type="text"
+                name="cidade"
+                value={formData.cidade}
                 onChange={handleChange}
               />
             </label>
           </div>
-          <button type="submit">{isEdit ? "Salvar" : "Cadastrar"}</button>
+          <div style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: 'center'
+          }}>
+            <div className="checkbox-group">
+              <label>
+                Apoiador:
+                <input
+                  type="checkbox"
+                  name="apoiador"
+                  checked={formData.apoiador}
+                  onChange={handleChange}
+                />
+              </label>
+              <label>
+                Voluntário:
+                <input
+                  type="checkbox"
+                  name="voluntario"
+                  checked={formData.voluntario}
+                  onChange={handleChange}
+                />
+              </label>
+            </div>
+            <button type="submit">{isEdit ? "Salvar" : "Cadastrar"}</button>
+          </div>
         </form>
       </div>
     </div>

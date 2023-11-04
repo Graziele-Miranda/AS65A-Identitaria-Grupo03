@@ -4,7 +4,7 @@ import TableRow from "../../components/TableRow";
 import { DeleteCompany, GetCompanyList } from "../../services/empresas";
 import "./Companies.css";
 import Image from "next/image";
-import AddCompanieModal from "../../components/Modal/AddCompanieModal";
+import AddCompanieModal from "../../components/Modal/AddCompanieModal/AddCompanieModal";
 
 function CompaniesTemplate() {
   const [companies, setCompanies] = useState([]);
@@ -21,6 +21,7 @@ function CompaniesTemplate() {
 
   const closeModal = () => {
     setIsModalOpen(false);
+    handleChangePage(1)
   };
 
   const handleEdit = (company, isEdit) => {
@@ -52,13 +53,20 @@ function CompaniesTemplate() {
     await DeleteCompany(e);
     const temp = await GetCompanyList(1);
     setCompanies(temp.data);
+    setTotal(Math.ceil(temp.total / 10));
+
+    const tempPages = [];
+    for (let index = 1; index < temp.total / 10; index++) {
+      tempPages.push(index);
+    }
+    setTotalPages(tempPages);
   };
 
   useEffect(() => {
     const fetchData = async () => {
       const temp = await GetCompanyList(page);
       setCompanies(temp.data);
-      setTotal(Math.round(temp.total / 10));
+      setTotal(Math.ceil(temp.total / 10));
 
       const tempPages = [];
       for (let index = 1; index < temp.total / 10; index++) {
@@ -131,7 +139,7 @@ function CompaniesTemplate() {
                 }`}
                 key={a}
                 value={a}
-                onClick={(e) => handleChangePage(e.target.value)}
+                onClick={(e: any) => handleChangePage(e.target.value)}
               >
                 {a}
               </button>
@@ -149,7 +157,7 @@ function CompaniesTemplate() {
                 <button
                   value={total}
                   className="rounded-btn mini page-btn"
-                  onClick={(e) => handleChangePage(e.target.value)}
+                  onClick={(e: any) => handleChangePage(e.target.value)}
                 >
                   {total}
                 </button>

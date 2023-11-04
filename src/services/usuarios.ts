@@ -2,13 +2,15 @@ import Api from ".";
 
 interface UserParams {
     nome: string,
-    cnpj: string,
-    saida: string
+    cpf: string,
+    idade: string,
+    rua: string,
     cidade: string,
     telefone: string,
     email: string,
+    profissao: string,
     apoiador: boolean,
-    voluntario: boolean
+    voluntario: boolean,
 }
 
 export const CreateUser = async (model: UserParams) => {

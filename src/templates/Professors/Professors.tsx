@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import icAdd from "../../assets/add.svg";
+import icAdd from "../../assets/add.svg"
 import TableRow from "../../components/TableRow";
 import "./Professors.css";
 import Image from "next/image";
@@ -25,6 +25,7 @@ function ProfessorsTemplate() {
 
   const closeModal = () => {
     setIsModalOpen(false);
+    handleChangePage(1)
   };
   const handleEdit = (professor, isEdit) => {
     setEditingProfessor(professor);
@@ -55,6 +56,13 @@ function ProfessorsTemplate() {
     await DeleteProfessor(e);
     const temp = await GetProfessorList(1);
     setUsers(temp.data);
+    setTotal(Math.ceil(temp.total / 10));
+
+    const tempPages = [];
+    for (let index = 1; index < temp.total / 10; index++) {
+      tempPages.push(index);
+    }
+    setTotalPages(tempPages);
   };
 
   useEffect(() => {
@@ -66,13 +74,12 @@ function ProfessorsTemplate() {
 
       const temp = await GetProfessorList(page);
       setUsers(temp.data);
-      setTotal(Math.round(temp.total / 10));
+      setTotal(Math.ceil(temp.total / 10));
 
       const tempPages = [];
       for (let index = 1; index < temp.total / 10; index++) {
         tempPages.push(index);
       }
-      console.log(tempPages);
       setTotalPages(tempPages);
     };
     fetchData();

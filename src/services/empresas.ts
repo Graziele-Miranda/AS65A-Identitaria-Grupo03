@@ -3,12 +3,12 @@ import Api from ".";
 interface CompanyParams {
     nome: string,
     cnpj: string,
-    saida: string
+    rua: string,
     cidade: string,
     telefone: string,
     email: string,
     apoiador: boolean,
-    voluntario: boolean
+    voluntario: boolean,
 }
 
 export const CreateCompany = async (model: CompanyParams) => {
