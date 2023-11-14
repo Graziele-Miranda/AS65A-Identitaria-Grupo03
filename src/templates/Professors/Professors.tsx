@@ -1,6 +1,6 @@
 "use client";
 import { useRouter } from "next/navigation";
-import icAdd from "../../assets/add.svg"
+import icAdd from "../../assets/add.svg";
 import TableRow from "../../components/TableRow";
 import "./Professors.css";
 import Image from "next/image";
@@ -25,7 +25,7 @@ function ProfessorsTemplate() {
 
   const closeModal = () => {
     setIsModalOpen(false);
-    handleChangePage(1)
+    handleChangePage(1);
   };
   const handleEdit = (professor, isEdit) => {
     setEditingProfessor(professor);
